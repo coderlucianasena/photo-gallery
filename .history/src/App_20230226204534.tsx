@@ -1,10 +1,10 @@
+// Galeria de Fotos em React (com Typescript e Firebase) 
+
 import { useState, useEffect, FormEvent } from 'react';
 import * as C from './App.styles';
 import * as Photos from './services/photos';
 import { Photo } from './types/Photo';
 import { PhotoItem } from './components/PhotoItem';
-import github from './assets/images/github.png';
-import linkedin from './assets/images/linkedin.png';
 
 const App = () => {
   const [uploading, setUploading] = useState(false);
@@ -26,12 +26,12 @@ const App = () => {
     const formData = new FormData(e.currentTarget);
     const file = formData.get('image') as File;
 
-    if (file && file.size > 0) {
+    if(file && file.size > 0) {
       setUploading(true);
       let result = await Photos.insert(file);
       setUploading(false);
 
-      if (result instanceof Error) {
+      if(result instanceof Error) {
         alert(`${result.name} - ${result.message}`);
       } else {
         let newPhotoList = [...photos];
@@ -47,7 +47,7 @@ const App = () => {
         <C.Header>Galeria de Fotos</C.Header>
 
         <C.UploadForm method="POST" onSubmit={handleFormSubmit}>
-          <input type="file" name="image" />
+          <input type="file" name="image" value="escolher"/>
           <input type="submit" value="Enviar" />
           {uploading && "Enviando..."}
 
@@ -75,26 +75,6 @@ const App = () => {
           </C.ScreenWarning>
         }
       </C.Area>
-      <C.Footer>
-
-        <a href='https://github.com/englucianasena' target='blank'>
-          <img src={github}
-            className="App-logo"
-            alt="logo"
-            height="50"
-            width="50"
-          />
-        </a>
-        <a href='https://www.linkedin.com/in/englucianasena/' target='blank'>
-          <img src={linkedin}
-            className="App-logo"
-            alt="logo"
-            height="50"
-            width="50"
-          />
-        </a>
-
-      </C.Footer>
     </C.Container>
   );
 }
